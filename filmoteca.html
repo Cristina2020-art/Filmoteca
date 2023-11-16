@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Filmoteca</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #d02424;
+      }
+
+      header {
+        background-color: darkmagenta;
+        color: deepskyblue;
+        padding: 10px;
+        text-align: center;
+      }
+
+      #movies-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding: 20px;
+      }
+
+      .movie {
+        background-color: mediumturquoise;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 10px;
+        padding: 15px;
+        width: 200px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Filmoteca</h1>
+    </header>
+
+    <div id="movies-container"></div>
+
+    <button onclick="showAddMovieForm()">Adaugă film</button>
+    <button onclick="deleteLastMovie()">Șterge ultimul film</button>
+
+    <div id="add-movie-form" style="display: none">
+      <h2>Adaugă film</h2>
+      <label for="title">Titlu:</label>
+      <input type="text" id="title" name="title" required />
+      <label for="year">An:</label>
+      <input type="number" id="year" name="year" required />
+      <label for="genre">Gen:</label>
+      <input type="text" id="genre" name="genre" required />
+      <button onclick="addMovie()">Adaugă</button>
+    </div>
+
+    <script>
+      const moviesData = [
+        { title: "Inception", year: 2010, genre: "Sci-Fi" },
+        { title: "The Shawshank Redemption", year: 1994, genre: "Drama" },
+        { title: "The Dark Knight", year: 2008, genre: "Action" },
+        { title: "Pulp Fiction", year: 1994, genre: "Crime" },
+        { title: "Forrest Gump", year: 1994, genre: "Drama" },
+        { title: "The Godfather", year: 1972, genre: "Crime" },
+        { title: "Fight Club", year: 1999, genre: "Drama" },
+        { title: "The Matrix", year: 1999, genre: "Sci-Fi" },
+        {
+          title: "The Lord of the Rings: The Fellowship of the Ring",
+          year: 2001,
+          genre: "Adventure",
+        },
+        { title: "The Shawshank Redemption", year: 1994, genre: "Drama" },
+        // Adăugați mai multe filme dacă doriți
+      ];
+
+      function renderMovies() {
+        const moviesContainer = document.getElementById("movies-container");
+        moviesContainer.innerHTML = "";
+
+        moviesData.forEach((movie) => {
+          const movieElement = document.createElement("div");
+          movieElement.classList.add("movie");
+          movieElement.innerHTML = `
+                    <h2>${movie.title}</h2>
+                    <p>Anul: ${movie.year}</p>
+                    <p>Gen: ${movie.genre}</p>
+                `;
+          moviesContainer.appendChild(movieElement);
+        });
+      }
+
+      function showAddMovieForm() {
+        const addMovieForm = document.getElementById("add-movie-form");
+        addMovieForm.style.display = "block";
+      }
+
+      function addMovie() {
+        const title = document.getElementById("title").value;
+        const year = document.getElementById("year").value;
+        const genre = document.getElementById("genre").value;
+
+        if (title && year && genre) {
+          moviesData.push({ title, year, genre });
+          renderMovies();
+          document.getElementById("add-movie-form").style.display = "none";
+        }
+      }
+
+      function deleteLastMovie() {
+        if (moviesData.length > 0) {
+          moviesData.pop();
+          renderMovies();
+        }
+      }
+
+      window.onload = renderMovies;
+    </script>
+  </body>
+</html>
